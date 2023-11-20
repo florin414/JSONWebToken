@@ -2,17 +2,17 @@
 @port=7153
 @AuthenticationJWTApiHostAddress = https://{{hostname}}:{{port}}
 
-GET {{AuthenticationJWTApiHostAddress}}/foods?query=pizza&number=5
+GET {{AuthenticationJWTApiHostAddress}}/food/productsByQueryAndNumber?query=pizza&number=5
 Accept: application/json
 
 ###
-GET {{AuthenticationJWTApiHostAddress}}/foods?query=pizza&number=1
+GET {{AuthenticationJWTApiHostAddress}}/food/productsByQueryAndNumber?query=pizza&number=1
 Accept: application/json
 
 ###
-GET {{AuthenticationJWTApiHostAddress}}/foods?query=pizza&number=100
+GET {{AuthenticationJWTApiHostAddress}}/food/productsByQueryAndNumber?query=pizza&number=100
 Accept: application/json
 
 ###
-GET {{AuthenticationJWTApiHostAddress}}/foods?query=burger&number=20
+GET {{AuthenticationJWTApiHostAddress}}/food/productsByQueryAndNumber?query=burger&number=20
 Accept: application/json

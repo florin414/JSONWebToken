@@ -1,9 +1,10 @@
 ﻿namespace AuthenticationJWT.Api.DataAccess;
 
-public class ApiDbContext : IdentityDbContext<User, IdentityRole<string>, string>
+public class ApiDbContext : IdentityDbContext<User>
 {
     public DbSet<User> Users { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
 

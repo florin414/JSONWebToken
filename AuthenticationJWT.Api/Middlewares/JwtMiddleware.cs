@@ -8,20 +8,24 @@ public class JwtMiddleware
     public JwtMiddleware(RequestDelegate next, IOptions<JwtOptions> options)
     {
         this.next = next;
-        this.JwtOptions = options.Value;
+        JwtOptions = options.Value;
     }
 
-    public async Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context, IRepository<User, string> userRepository)
     {
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
         if (token != null)
-            AttachUserToContext(context, token);
+            await AttachUserToContext(context, token, userRepository);
 
         await next(context);
     }
 
-    private void AttachUserToContext(HttpContext context, string token)
+    private async Task AttachUserToContext(
+        HttpContext context,
+        string token,
+        IRepository<User, string> userRepository
+    )
     {
         try
         {
@@ -47,13 +51,7 @@ public class JwtMiddleware
             var jwtToken = (JwtSecurityToken)validatedToken;
             var userId = jwtToken.Claims.First(c => c.Type == "sub").Value;
 
-            context.Items["User"] = new User
-            {
-                UserName = "Aamir Khan",
-                Email = "AamirKhan@Example.com",
-                Password = "Allah",
-                Role = "Admin"
-            };
+            context.Items["User"] = await userRepository.GetById(userId);
         }
         catch { }
     }
